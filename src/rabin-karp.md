@@ -288,9 +288,9 @@ Agora sabemos o que precisamos: a base referente ao nosso alfabeto utilizado e u
 
 ??? Checkpoint
 
-#TODO
+#TODO: exercício com valores de base e divisor que estouram a memória
 ::: Gabarito
-#TODO
+#TODO: solução do ex.
 :::
 ???
 !!! Aviso
@@ -303,6 +303,8 @@ Para evitar esse problema, podemos utilizar do algoritmo de Horner aliado às pr
 
     #TODO: Propriedades de MOD
 
-Por fim, chegamos ao nosso Algoritmo aperfeiçoado.
+Agora, podemos calcular o valor de Hash de uma maneira eficaz. Além disso, podemos fazer uso do rolling hash para tornar as contas mais fáceis:
 
-    #TODO: Equação final:
+    #TODO: Equação final em markdown:
+
+$$x_i \% Q = ((x_{i-1} \% Q + c_{i-1} \cdot (Q-R^{m-1} \% Q))\cdot R + c_{i+m-1}) \% Q$$
