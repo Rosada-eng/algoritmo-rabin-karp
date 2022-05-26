@@ -1,8 +1,24 @@
 # Algoritmo de Rabin-Karp
 
+## Buscas em textos
+
+A busca de pedaços de palavra, palavras completas ou trechos de textos em conteúdos maiores é um problema que vem habitando o dia a dia de praticamente todos que utilizam computadores, desde suas primeiras versões. O primeiro comando que deve vir a sua mente nesse tema, o popular *Ctrl+F*, apesar de pouco sofisticado, exige um raciocínio computacional bem mais verborrágico do que parece. 
+
+Na era atual, ainda mais, é possível pensar em diversos contextos que exigem lidar com dados variados, em volumes crescentes e com velocidade cada vez maior. A importância de ferramentas de busca cresce fortemente com o crescimento do uso de conjuntos de dados maiores e mais complexos (ou Big Data, num termo bem popular atualmente). 
+
+De fato, existem diversos algoritmos (com estratégias diferentes) que servem à finalidade proposta. Você consegue pensar em uma estratégia para o desafio de, digamos, buscar o termo `md paga` na palavra `md papagaio`? 
+
+## Como procurar palavras específicas em textos?
+
+Taticamente falando, muitos dos métodos dependem de percorrer toda o texto, buscando o trecho que quer ser encontrado. No exemplo citado acima, temos um trecho de 4 letras a ser buscado em uma palavra de 8 letras. A princípio, é razoável assumir que temos que conferir todas as _janelas_ de 4 caracteres seguidos dentro do conjunto total, que tem 8 caracteres.
+
+:windows
+
+Nesse caso, a nossa verificação encontrou 1 ocorrência do termo nas _janelas_ contidas na palavra buscada. O modo em que a checagem dentro das _janelas_ é feita pode variar para os diferentes algoritmos existentes. Como primeira abstração, vamos partir de um algoritmo "força bruta".
+
 ## Algoritmo da força bruta
 
-Talvez uma das maneiras mais intuitivas para buscar um determinado padrão dentro de um texto seja percorrê-lo por completo, analisando um conjunto de caracteres do mesmo tamanho do nosso padrão e checar letra por letra, se corresponde a ordem desejada. Caso uma das letras não corresponda, podemos avançar o intervalo da nossa janela de análise e, assim, prosseguir por todo o texto. Por exemplo, se quiséssemos contar as ocorrências de `md paga` em `md papagaio`, poderíamos fazer:
+Talvez a estratégia que você pensou anteriormente foi de comparar, letra a letra, contando cada ocorrência em que todas as letras sejam iguais e interrompendo a análise de uma dada _janela_ quando um dos caracteres não for igual. Por exemplo, se quiséssemos contar as ocorrências de `md paga` em `md papagaio`, seria possível fazer:
 
 :brutus
 
