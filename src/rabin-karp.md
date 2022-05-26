@@ -6,13 +6,14 @@ Talvez uma das maneiras mais intuitivas para buscar um determinado padrão dentr
 
 :brutus
 
+//TODO: colocar um pseudo-código em alto nível
+
 ??? Checkpoint
 
-Analisando o comportamento da animação acima, o que você poderia deduzir a respeito da complexidade dessa estratégia de busca, no **pior dos casos**, ou seja, quando?
+Analisando o comportamento da animação acima, o que você poderia deduzir a respeito da complexidade dessa estratégia de busca, no **pior dos casos**?
 
 :::Gabarito
 
-//TODO: Antes de dizer a resposta no Pior dos casos, colocar um pseudo-código em alto nível
 No pior dos casos, para cada _janela_ do texto comparada com o padrão, compararíamos todas as letras até chegar à última, ou seja, percorreríamos dois loopings de comparação, o que implicaria em um algoritmo com complexidade $O(n^2)$.
 
 :::
@@ -25,7 +26,7 @@ Por ter uma complexidade quadrática, esse algoritmo está longe de ser uma boa 
 
 É aqui que começa a aparecer a genialidade do algoritmo de Rabin Karp!
 
-## A ideia do algoritmo ingênuo
+## O algoritmo ingênuo
 
 Imagine que cada palavra ou conjunto de caracteres tivesse uma _impressão digital numérica_, isto é, algum código numérico que a identificasse e que pudéssemos usá-la para compará-la com outras palavras do texto. Isso reduziria nosso trabalho a simplesmente buscar as digitais de cada janela e comparar com a digital do nosso padrão.
 
@@ -85,7 +86,7 @@ Antes de prosseguirmos, há mais um ponto a ser levantado. Você notou, na anima
 
 ::: Gabarito
 
-Não. Houve uma colisão de _hash_ em que as strings analisadas eram diferentes!
+Houve uma colisão de _hash_ em que as strings analisadas eram diferentes!
 
 :::
 
@@ -101,14 +102,24 @@ Quais possíveis implicações isso pode ter em termos de desempenho do algoritm
 
 Quando os _hashs_ resultam no mesmo valor, é necessário fazer uma segunda verificação, caractere por caractere, para de fato validar ou não a igualdade entre strings.
 
-Esse é o ponto crítico do algoritmo! Não é possível impedir que colisões de _hash_ com strings distintas aconteçam. E, quanto mais frequente forem, mais teremos que forçar o algoritmo a checar a correspondência caractere por caractere. Já fica evidente, portanto, que, no pior dos casos, quando toda janela possui o mesmo _hash_ do padrão, o algoritmo tem complexidade $O(n^2)$.
-
-Porém, a boa notícia é que temos total controle sobre como as digitais de cada palavra são formadas e, portanto, podemos tornar a colisão de _hashes_ mais rara.
+Já fica evidente, portanto, que, no pior dos casos, quando toda janela possui o mesmo _hash_ do padrão, o algoritmo tem complexidade $O(n^2)$.
 
 :::
-
 ???
 
+!!! Importante
+Esse é um ponto crucial no algoritmo! Não é possível impedir que colisões de _hash_ com strings distintas aconteçam. E, quanto mais frequente forem, mais teremos que forçar o algoritmo a checar a correspondência caractere por caractere.
+Porém, a boa notícia é que temos total controle sobre como as _digitais numéricas_ de cada palavra são formadas e, portanto, podemos tornar a colisão de _hashes_ mais rara.
+
+!!!
 // TODO: Pseudo-código com o Algoritmo usando Rolling Hash
 
-No código acima, fica claro que podem ocorrer colisões não desejadas ao longo da busca em um texto. Mas, no último checkpoint, também vimos que temos o controle sobre a **Função Hash**, que pode tornar as _digitais numéricas_ mais ou menos singulares, dificultando, assim, colisões indesejadas. Assim, a construção de um algoritmo em cima da ideia de _Hashing_ deve considerar **reduzir a probabilidade dessas colisões**, o que implica em diminuir a quantidade de "varreduras completas" em cada string e acelerar o processo de busca como um todo.
+No código acima, fica claro que podem ocorrer colisões não desejadas ao longo da busca em um texto. Mas, no último checkpoint, também vimos que temos o controle sobre a **Função Hash**, que pode tornar as _digitais numéricas_ mais ou menos singulares, dificultando, assim, colisões indesejadas. Assim, a construção de um algoritmo em cima da ideia de _Hashing_ deve considerar **reduzir a probabilidade dessas colisões**.
+
+Se conseguíssemos tonar os _hashing values_ suficientemente singulares, poderíamos simplesmente confiar no _matching_ entre os valores para julgar a igualdade ou não entre as strings. De fato, essa é uma versão aplicada do algoritmo de _Rabin-Karp_ e é conhecida como **_versão Monte Carlo_**. Essa é uma versão que prioriza velocidade. Como ela não checa caractere por caractere, o algoritmo consegue passar por todo o texto com maior facilidade. O nível de precisão nas respostas dependerá da complexidade da funçao hash utilizada. Logo, apesar dela poder fornecer uma resposta errada, é possível reduzir essa possibilidade.
+
+// TODO: Pseudo-código da Versão Monte Carlo
+
+Fica evidente, portanto, que a versão Monte Carlo tem complexidade $O(n)$.
+
+Em contrapartida, podemos optar por uma versão mais segura, a **_versão Las Vegas_**. Além de checar o _hashing value_, ela confere o _matching_ entre os caracteres. No pior dos casos, ou seja, naquele em que os _hashing values_ dão match constantemente, ela tem complexidade $O(n \cdot m)$. De forma semelhante à Monte Carlo, ela pode tornar esses casos mais raros, utilizando uma função hash mais complexa.
