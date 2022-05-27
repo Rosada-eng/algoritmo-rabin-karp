@@ -10,7 +10,7 @@ De fato, existem diversos algoritmos (com estratégias diferentes) que servem à
 
 ## Como procurar palavras específicas em textos?
 
-Taticamente falando, muitos dos métodos dependem de percorrer toda o texto, buscando o trecho que quer ser encontrado. No exemplo citado acima, temos um trecho de 4 letras a ser buscado em uma palavra de 8 letras. A princípio, é razoável assumir que temos que conferir todas as _janelas_ de 4 caracteres seguidos dentro do conjunto total, que tem 8 caracteres.
+Taticamente falando, muitos dos métodos dependem de percorrer todo o texto, buscando o trecho que quer ser encontrado. No exemplo citado acima, temos um trecho de 4 letras a ser buscado em uma palavra de 8 letras. A princípio, é razoável assumir que temos que conferir todas as _janelas_ de 4 caracteres seguidos dentro do conjunto total, que tem 8 caracteres.
 
 :windows
 
@@ -28,11 +28,11 @@ Talvez a estratégia que você pensou anteriormente foi de comparar, letra a let
  enquanto não chega ao final do texto:
     enquanto não chega ao final da janela:
         compara o caractere da janela com o caractere do padrão.
-            - se forem iguais:
+            se forem iguais:
                 avança o índice da janela em um.
-            - se não forem:
+            se não forem:
                 sai do looping.
-        - se todos os caracteres analisados foram iguais:
+        se todos os caracteres analisados foram iguais:
             adiciona o índice do início da janela em um array de matchings.
 
         avança a janela em uma posição.
@@ -40,7 +40,7 @@ Talvez a estratégia que você pensou anteriormente foi de comparar, letra a let
 
 ??? Checkpoint
 
-Analisando o comportamento da estratégia acima, o que você poderia deduzir a respeito da complexidade dessa estratégia de busca, no **pior dos casos**?
+Analisando o comportamento acima, o que você poderia deduzir a respeito da complexidade dessa estratégia de busca, no **pior dos casos**?
 
 :::Gabarito
 
@@ -50,7 +50,7 @@ No pior dos casos, para cada _janela_ do texto comparada com o padrão, comparar
 
 ???
 
-Essa estratégia pode até parecer razoável para o exemplo anterior, mas imagine que fôssemos buscar as ocorrências da palavra `md batata` no livro `md Quincas Borba`, de Machado de Assis ("Ao vencedor, as batatas!"), quantas comparações letra a letra o algoritmo teria que fazer até que analisasse o livro por completo, procurando pelo padrão? Com certeza seria um número grande, mas boa parte delas seriam desnecessárias ou poderiam ter sido descartadas, caso adotássemos uma estratégia melhor.
+Essa estratégia pode até parecer razoável para o exemplo anterior, mas imagine que fôssemos buscar as ocorrências da palavra `md batata` no livro `md Quincas Borba`, de Machado de Assis ("Ao vencedor, as batatas!"). Quantas comparações letra a letra o algoritmo teria que fazer até que analisasse o livro por completo, procurando pelo padrão? Com certeza seria um número grande, mas boa parte delas seriam desnecessárias ou poderiam ter sido descartadas, caso adotássemos uma estratégia melhor.
 
 Por ter uma complexidade quadrática, esse algoritmo está longe de ser uma boa alternativa para a busca de padrões textuais na vida real. Por enquanto, estamos desperdiçando nossos recursos fazendo comparações intermediárias que serão descartadas em alguns passos adiante (quando o fim da palavra não corresponde ao padrão). Será que teria uma maneira conveniente para evitar isso? O que poderíamos fazer para melhorar nosso algoritmo e diminuir sua complexidade?
 
@@ -58,7 +58,7 @@ Por ter uma complexidade quadrática, esse algoritmo está longe de ser uma boa 
 
 ## O algoritmo ingênuo
 
-Imagine que cada palavra ou conjunto de caracteres tivesse uma _impressão digital numérica_, isto é, algum código numérico que a identificasse e que pudéssemos usá-la para compará-la com outras palavras do texto. Isso reduziria nosso trabalho a simplesmente buscar as digitais de cada janela e comparar com a digital do nosso padrão.
+Imagine que cada palavra ou conjunto de caracteres tivesse uma _impressão digital numérica_, isto é, algum código numérico que a identificasse e que pudéssemos usá-lo para compará-la com outras palavras do texto. Isso reduziria nosso trabalho a simplesmente buscar as digitais de cada janela e comparar com a digital do nosso padrão.
 
 Resta-nos, porém, determinar uma regra para compor essa impressão digital numérica. Uma maneira simples de se fazer isso seria propor uma equivalência numérica para cada caractere, somar o valor de cada um e compor a identidade numérica da palavra. Para isso, podemos fazer uso da tabela ASCII simplificada, em que cada caractere corresponde a um número `md (A=65, B=66, ... ,Z=90)`.
 
@@ -78,9 +78,15 @@ Resta-nos, porém, determinar uma regra para compor essa impressão digital num�
 
 Você pode ver a versão completa da Tabela ASCII [aqui](https://web.fe.up.pt/~ee96100/projecto/Tabela%20ascii.htm).
 
+No exemplo que está sendo trabalhado, o valor da _impressão digital numérica_ associado ao termo `md paga` é o nosso target, ou seja, o que queremos encontrar dentro da palavra `md papagaio`. Ao analisar a tabela ASCII, verificamos que o valor da _impressão digital numérica_ target é 281. 
+
+![Hash Paga](/hashpaga.png)
+
+Resta, então, percorrer todas as janelas de 4 caracteres da palavra (assim como no algoritmo força bruta) e encontrar todas aquelas que tem valores de _impressão digital numérica_ iguais ao valor target, 281. Quando uma janela não tiver o valor de _impressão digital numérica_ desejado, não é preciso analisar letra a letra para encontrar os matchs - ela já não deu match na busca do código numérico!
+
 :ingenuo
 
-Essa estratégia de gerar uma saída padronizada (_impressão digital numérica_) a partir de uma entrada qualquer (uma palavra qualquer: um conjunto de caracteres) é bastante utilizada no mundo da computação, em diversas formas diferentes. Ela é conhecida como **Função Hash**. Uma função hash é aquela que recebe um valor qualquer de entrada e devolve uma resposta em um formato padronizado. Essa saída é conhecida como **_hash value_**.
+Essa estratégia de gerar uma saída padronizada (_impressão digital numérica_) a partir de uma entrada qualquer (uma palavra qualquer: um conjunto de caracteres) é bastante utilizada no mundo da computação, em diversas formas diferentes. Ela é conhecida como **Função Hash**. Uma função hash é aquela que recebe um valor qualquer de entrada e devolve uma resposta em um formato padronizado. Essa saída é conhecida como **_hash value_** (que, convenhamos, é bem menos verborrágico que _impressão digital numérica_).
 
 ```powershell
 
@@ -164,7 +170,7 @@ Porém, a boa notícia é que temos total controle sobre como as _digitais numé
 
 !!!
 
-No código acima, fica claro que podem ocorrer colisões não desejadas ao longo da busca em um texto. Mas, no último checkpoint, também vimos que temos o controle sobre a **Função Hash**, que pode tornar as _digitais numéricas_ mais ou menos singulares, dificultando, assim, colisões indesejadas. Assim, a construção de um algoritmo em cima da ideia de _Hashing_ deve considerar **reduzir a probabilidade dessas colisões**.
+No código acima, fica nítido que podem ocorrer colisões não desejadas ao longo da busca em um texto. Mas, no último checkpoint, também vimos que temos o controle sobre a **Função Hash**, que pode tornar as _digitais numéricas_ mais ou menos singulares, dificultando, assim, colisões indesejadas. Assim, a construção de um algoritmo em cima da ideia de _Hashing_ deve considerar **reduzir a probabilidade dessas colisões**.
 
 Se conseguíssemos tonar os _hashing values_ suficientemente singulares, poderíamos simplesmente confiar no _matching_ entre os valores para julgar a igualdade ou não entre as strings. De fato, essa é uma versão aplicada do algoritmo de _Rabin-Karp_ e é conhecida como **_versão Monte Carlo_**. Essa é uma versão que prioriza velocidade. Como ela não checa caractere por caractere, o algoritmo consegue passar por todo o texto com maior facilidade. O nível de precisão nas respostas dependerá da complexidade da funçao hash utilizada. Logo, apesar dela poder fornecer uma resposta errada, é possível reduzir essa possibilidade.
 
@@ -176,9 +182,9 @@ Se conseguíssemos tonar os _hashing values_ suficientemente singulares, poderí
 
  enquanto não chega ao final do texto:
     compara hash_value com hash_padrao.
-        - se forem iguais:
+        se forem iguais:
             adiciona o índice do início da janela em um array de matchings.
-        - se não forem:
+        se não forem:
             não faz nada.
 
     avança a janela em uma posição.
@@ -207,16 +213,16 @@ Em contrapartida, podemos optar por uma versão mais segura, a **_versão Las Ve
 
  enquanto não chega ao final do texto:
     compara hash_value com hash_padrao.
-        - se os hash_values são iguais:
+        se os hash_values são iguais:
             enquanto não chega ao final da janela:
                 compara o caractere da janela com o caractere do padrão.
-                    - se forem iguais:
+                    se forem iguais:
                         avança o índice da janela em um.
-                    - se não forem:
+                    se não forem:
                         sai do looping.
-                - se todos os caracteres analisados foram iguais:
+                se todos os caracteres analisados foram iguais:
                     adiciona o índice do início da janela em um array de matchings.
-        - se os hash_values são diferentes:
+        se os hash_values são diferentes:
             não faz nada.
 
     avança a janela em uma posição.
