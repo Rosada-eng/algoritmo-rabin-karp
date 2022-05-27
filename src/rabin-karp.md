@@ -22,11 +22,25 @@ Talvez a estratégia que você pensou anteriormente foi de comparar, letra a let
 
 :brutus
 
-//TODO: colocar um pseudo-código em alto nível
+### Pseudo-código da versão Força Bruta
+
+```powershell
+ enquanto não chega ao final do texto:
+    enquanto não chega ao final da janela:
+        compara o caractere da janela com o caractere do padrão.
+            - se forem iguais:
+                avança o índice da janela em um.
+            - se não forem:
+                sai do looping.
+        - se todos os caracteres analisados foram iguais:
+            adiciona o índice do início da janela em um array de matchings.
+
+        avança a janela em uma posição.
+```
 
 ??? Checkpoint
 
-Analisando o comportamento da animação acima, o que você poderia deduzir a respeito da complexidade dessa estratégia de busca, no **pior dos casos**?
+Analisando o comportamento da estratégia acima, o que você poderia deduzir a respeito da complexidade dessa estratégia de busca, no **pior dos casos**?
 
 :::Gabarito
 
