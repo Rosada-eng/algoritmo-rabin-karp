@@ -154,8 +154,71 @@ No código acima, fica claro que podem ocorrer colisões não desejadas ao longo
 
 Se conseguíssemos tonar os _hashing values_ suficientemente singulares, poderíamos simplesmente confiar no _matching_ entre os valores para julgar a igualdade ou não entre as strings. De fato, essa é uma versão aplicada do algoritmo de _Rabin-Karp_ e é conhecida como **_versão Monte Carlo_**. Essa é uma versão que prioriza velocidade. Como ela não checa caractere por caractere, o algoritmo consegue passar por todo o texto com maior facilidade. O nível de precisão nas respostas dependerá da complexidade da funçao hash utilizada. Logo, apesar dela poder fornecer uma resposta errada, é possível reduzir essa possibilidade.
 
-// TODO: Pseudo-código da Versão Monte Carlo
+### Pseudo-código da versão Monte Carlo
 
-Fica evidente, portanto, que a versão Monte Carlo tem complexidade $O(n)$.
+```powershell
+ hash_padrao = calcula o hash do padrão procurado
+ hash_value = calcula hash da janela inicial
+
+ enquanto não chega ao final do texto:
+    compara hash_value com hash_padrao.
+        - se forem iguais:
+            adiciona o índice do início da janela em um array de matchings.
+        - se não forem:
+            não faz nada.
+
+    avança a janela em uma posição.
+    hash_value = recalcula hash com rolling_hash
+```
+
+??? Checkpoint
+
+Qual é a complexidade do Algoritmo de Rabin-Karp na versão Monte Carlo?
+
+::: Gabarito
+
+Como só percorremos um único looping, verificando o _hash value_, a versão Monte Carlo tem complexidade $O(n)$.
+
+:::
+
+???
 
 Em contrapartida, podemos optar por uma versão mais segura, a **_versão Las Vegas_**. Além de checar o _hashing value_, ela confere o _matching_ entre os caracteres. No pior dos casos, ou seja, naquele em que os _hashing values_ dão match constantemente, ela tem complexidade $O(n \cdot m)$. De forma semelhante à Monte Carlo, ela pode tornar esses casos mais raros, utilizando uma função hash mais complexa.
+
+### Pseudo-código da versão Las Vegas
+
+```powershell
+ hash_padrao = calcula o hash do padrão procurado
+ hash_value = calcula hash da janela inicial
+
+ enquanto não chega ao final do texto:
+    compara hash_value com hash_padrao.
+        - se os hash_values são iguais:
+            enquanto não chega ao final da janela:
+                compara o caractere da janela com o caractere do padrão.
+                    - se forem iguais:
+                        avança o índice da janela em um.
+                    - se não forem:
+                        sai do looping.
+                - se todos os caracteres analisados foram iguais:
+                    adiciona o índice do início da janela em um array de matchings.
+        - se os hash_values são diferentes:
+            não faz nada.
+
+    avança a janela em uma posição.
+    hash_value = recalcula hash com rolling_hash
+```
+
+??? Checkpoint
+
+Qual é a complexidade do Algoritmo de Rabin-Karp na versão Las Vegas?
+
+::: Gabarito
+
+Nesse caso, podemos identificar dois loopings: um para percorrer o texto e outro para conferir caractere por caractere.
+No pior dos casos, em que acionaríamos o segundo looping a todo momento, o algoritmo teria complexidade $O(n \cdot m)$ - em que $n$ é o tamanho do texto e $m$ é o tamanho do padrão.
+Mas, como estamos utilizando uma _função hash_ relativamente complexa, podemos reduzir bastante a probabilidade dessas colisões ocorrerem. Nesse contexto, podemos considerar apenas o looping mais externo, ou seja, na prática, esse algoritmo tem complexidade $O(n)$.
+
+:::
+
+???
