@@ -134,6 +134,8 @@ No código acima, fica claro que podem ocorrer colisões não desejadas ao longo
 
 Se conseguíssemos tonar os _hashing values_ suficientemente singulares, poderíamos simplesmente confiar no _matching_ entre os valores para julgar a igualdade ou não entre as strings. De fato, essa é uma versão aplicada do algoritmo de _Rabin-Karp_ e é conhecida como **_versão Monte Carlo_**. Essa é uma versão que prioriza velocidade. Como ela não checa caractere por caractere, o algoritmo consegue passar por todo o texto com maior facilidade. O nível de precisão nas respostas dependerá da complexidade da funçao hash utilizada. Logo, apesar dela poder fornecer uma resposta errada, é possível reduzir essa possibilidade.
 
+### Pseudo-código da versão Monte Carlo
+
 ```powershell
  hash_padrao = calcula o hash do padrão procurado
  hash_value = calcula hash da janela inicial
@@ -163,7 +165,7 @@ Como só percorremos um único looping, verificando o _hash value_, a versão Mo
 
 Em contrapartida, podemos optar por uma versão mais segura, a **_versão Las Vegas_**. Além de checar o _hashing value_, ela confere o _matching_ entre os caracteres. No pior dos casos, ou seja, naquele em que os _hashing values_ dão match constantemente, ela tem complexidade $O(n \cdot m)$. De forma semelhante à Monte Carlo, ela pode tornar esses casos mais raros, utilizando uma função hash mais complexa.
 
-### Pseudo-código da Versão Monte Carlo
+### Pseudo-código da versão Las Vegas
 
 ```powershell
  hash_padrao = calcula o hash do padrão procurado
