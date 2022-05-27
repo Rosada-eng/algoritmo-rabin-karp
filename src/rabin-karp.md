@@ -2,11 +2,11 @@
 
 ## Buscas em textos
 
-A busca de pedaços de palavra, palavras completas ou trechos de textos em conteúdos maiores é um problema que vem habitando o dia a dia de praticamente todos que utilizam computadores, desde suas primeiras versões. O primeiro comando que deve vir a sua mente nesse tema, o popular *Ctrl+F*, apesar de pouco sofisticado, exige um raciocínio computacional bem mais verborrágico do que parece. 
+A busca de pedaços de palavra, palavras completas ou trechos de textos em conteúdos maiores é um problema que vem habitando o dia a dia de praticamente todos que utilizam computadores, desde suas primeiras versões. O primeiro comando que deve vir a sua mente nesse tema, o popular _Ctrl+F_, apesar de pouco sofisticado, exige um raciocínio computacional bem mais verborrágico do que parece.
 
-Na era atual, ainda mais, é possível pensar em diversos contextos que exigem lidar com dados variados, em volumes crescentes e com velocidade cada vez maior. A importância de ferramentas de busca cresce fortemente com o crescimento do uso de conjuntos de dados maiores e mais complexos (ou Big Data, num termo bem popular atualmente). 
+Na era atual, ainda mais, é possível pensar em diversos contextos que exigem lidar com dados variados, em volumes crescentes e com velocidade cada vez maior. A importância de ferramentas de busca cresce fortemente com o crescimento do uso de conjuntos de dados maiores e mais complexos (ou Big Data, num termo bem popular atualmente).
 
-De fato, existem diversos algoritmos (com estratégias diferentes) que servem à finalidade proposta. Você consegue pensar em uma estratégia para o desafio de, digamos, buscar o termo `md paga` na palavra `md papagaio`? 
+De fato, existem diversos algoritmos (com estratégias diferentes) que servem à finalidade proposta. Você consegue pensar em uma estratégia para o desafio de, digamos, buscar o termo `md paga` na palavra `md papagaio`?
 
 ## Como procurar palavras específicas em textos?
 
@@ -48,13 +48,34 @@ Imagine que cada palavra ou conjunto de caracteres tivesse uma _impressão digit
 
 Resta-nos, porém, determinar uma regra para compor essa impressão digital numérica. Uma maneira simples de se fazer isso seria propor uma equivalência numérica para cada caractere, somar o valor de cada um e compor a identidade numérica da palavra. Para isso, podemos fazer uso da tabela ASCII simplificada, em que cada caractere corresponde a um número `md (A=65, B=66, ... ,Z=90)`.
 
-// TODO: adicionar a tabela ASCII aqui
+| Caractere | Decimal | Octal | Hexadecimal |
+| :-------: | :-----: | :---: | :---------: |
+|    ...    |   ...   |  ...  |     ...     |
+|   **@**   |   64    | 0100  |    0x40     |
+|   **A**   |   65    | 0101  |    0x41     |
+|   **B**   |   66    | 0102  |    0x42     |
+|   **C**   |   67    | 0103  |    0x43     |
+|    ...    |   ...   |  ...  |     ...     |
+|   **Y**   |   89    | 0131  |    0x59     |
+|   **Z**   |   90    | 0132  |    0x5a     |
+|   **[**   |   91    | 0133  |    0x5b     |
+|  **\\**   |   92    | 0134  |    0x5c     |
+|    ...    |   ...   |  ...  |     ...     |
+
+Você pode ver a versão completa da Tabela ASCII [aqui](https://web.fe.up.pt/~ee96100/projecto/Tabela%20ascii.htm).
 
 :ingenuo
 
 Essa estratégia de gerar uma saída padronizada (_impressão digital numérica_) a partir de uma entrada qualquer (uma palavra qualquer: um conjunto de caracteres) é bastante utilizada no mundo da computação, em diversas formas diferentes. Ela é conhecida como **Função Hash**. Uma função hash é aquela que recebe um valor qualquer de entrada e devolve uma resposta em um formato padronizado. Essa saída é conhecida como **_hash value_**.
 
-//TODO: Antes de partir para a pergunta, colocar um pseudo-código em alto nível com o hash value
+```powershell
+
+i = 0
+hash = 0
+enquanto i for menor que o tamanho da string
+    hash += funcao_hash(string[i])
+
+```
 
 ??? Checkpoint
 
@@ -128,7 +149,6 @@ Esse é um ponto crucial no algoritmo! Não é possível impedir que colisões d
 Porém, a boa notícia é que temos total controle sobre como as _digitais numéricas_ de cada palavra são formadas e, portanto, podemos tornar a colisão de _hashes_ mais rara.
 
 !!!
-// TODO: Pseudo-código com o Algoritmo usando Rolling Hash
 
 No código acima, fica claro que podem ocorrer colisões não desejadas ao longo da busca em um texto. Mas, no último checkpoint, também vimos que temos o controle sobre a **Função Hash**, que pode tornar as _digitais numéricas_ mais ou menos singulares, dificultando, assim, colisões indesejadas. Assim, a construção de um algoritmo em cima da ideia de _Hashing_ deve considerar **reduzir a probabilidade dessas colisões**.
 
