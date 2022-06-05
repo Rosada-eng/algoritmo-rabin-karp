@@ -38,13 +38,19 @@ Talvez a estratégia que você pensou anteriormente foi de comparar, letra a let
         avança a janela em uma posição.
 ```
 
+!!! Importante
+
+Para abordar o problema de uma forma geral, convém assumir que estamos tratando da busca de um padrão de tamanho $m$ em um texto de tamanho $n$.
+
+!!!
+
 ??? Checkpoint
 
-Analisando o comportamento acima, o que você poderia deduzir a respeito da complexidade dessa estratégia de busca, no **pior dos casos**?
+Analisando a estratégia acima, o que você poderia deduzir a respeito da complexidade dessa estratégia de busca, no **pior dos casos**?
 
 :::Gabarito
 
-No pior dos casos, para cada _janela_ do texto comparada com o padrão, compararíamos todas as letras até chegar à última, ou seja, percorreríamos dois loopings de comparação, o que implicaria em um algoritmo com complexidade $O(n^2)$.
+No pior dos casos, para cada _janela_ do texto comparada com o padrão, compararíamos todas as letras até chegar à última, ou seja, percorreríamos dois loopings de comparação, o que implicaria em um algoritmo com complexidade $O(n \cdot m)$.
 
 :::
 
@@ -78,13 +84,30 @@ Resta-nos, porém, determinar uma regra para compor essa impressão digital num�
 
 Você pode ver a versão completa da Tabela ASCII [aqui](https://web.fe.up.pt/~ee96100/projecto/Tabela%20ascii.htm).
 
-No exemplo que está sendo trabalhado, o valor da _impressão digital numérica_ associado ao termo `md paga` é o nosso target, ou seja, o que queremos encontrar dentro da palavra `md papagaio`. Ao analisar a tabela ASCII, verificamos que o valor da _impressão digital numérica_ target é 281. 
+Imagine agora que nosso desafio é o de encontrar o termo `md bola` na palavra `md carambolas`. O valor da _impressão digital numérica_ associado ao termo `md bola` é o nosso target, ou seja, o que queremos encontrar dentro da palavra `md carambolas`.  
 
-![Hash Paga](/hashpaga.png)
+??? Checkpoint
 
-Resta, então, percorrer todas as janelas de 4 caracteres da palavra (assim como no algoritmo força bruta) e encontrar todas aquelas que tem valores de _impressão digital numérica_ iguais ao valor target, 281. Quando uma janela não tiver o valor de _impressão digital numérica_ desejado, não é preciso analisar letra a letra para encontrar os matchs - ela já não deu match na busca do código numérico!
+No caso desse exemplo, analisando a tabela ASCII, qual o valor da _impressão digital numérica_ do target?
 
-:ingenuo
+::: Gabarito
+
+| Caractere | Decimal | 
+| :-------: | :-----: |
+|   **B**   |   66    | 
+|   **O**   |   79    | 
+|   **L**   |   76    | 
+|   **A**   |   65    |
+
+![Hash Bola](/hashbola.png) 
+
+:::
+
+???
+
+Resta, então, percorrer todas as janelas de 4 caracteres da palavra (assim como no algoritmo força bruta) e encontrar todas aquelas que tem valores de _impressão digital numérica_ iguais ao valor target. Quando uma janela não tiver o valor de _impressão digital numérica_ desejado, já está eliminada a possibilidade de match, independentemente de outras condições que vamos analisar posteriormente!
+
+:carambolashash
 
 Essa estratégia de gerar uma saída padronizada (_impressão digital numérica_) a partir de uma entrada qualquer (uma palavra qualquer: um conjunto de caracteres) é bastante utilizada no mundo da computação, em diversas formas diferentes. Ela é conhecida como **Função Hash**. Uma função hash é aquela que recebe um valor qualquer de entrada e devolve uma resposta em um formato padronizado. Essa saída é conhecida como **_hash value_** (que, convenhamos, é bem menos verborrágico que _impressão digital numérica_).
 
@@ -105,7 +128,7 @@ No caso da animação anterior, em que aplicamos o _hashing_, considerando o **p
 
 ::: Gabarito
 
-Para calcular o _hash_ de cada trecho analisado, precisamos varrê-lo e somar o valor númerico correspondente a cada letra. Dessa forma, ainda precisamos recorrer ao looping interno à janela. Assim, nosso algoritmo ainda continua tendo complexidade $O(n^2)$.
+Para calcular o _hash_ de cada trecho analisado, precisamos varrê-lo e somar o valor númerico correspondente a cada letra. Dessa forma, ainda precisamos recorrer ao looping interno à janela. Assim, nosso algoritmo ainda continua tendo complexidade $O(n \cdot m)$.
 
 :::
 
@@ -123,10 +146,10 @@ Você consegue propor uma estratégia para não ter que percorrer todos os carac
 
 A cada avanço da janela sobre o texto, os termos do cálculo do _hash_ que mudam são os termos inicial e final (os demais não se alteram). Portanto, em vez de percorremos toda a string a cada iteração, podemos apenas **subtrair** o _hash_ do caractere que saiu e **somar** o _hash_ do caractere entrante.
 
-Por exemplo, ao sair de `md PAPA` ($hash=290$) para `md APAG`, o cálculo seria:
+Por exemplo, ao sair de `md CARA` ($hash=279$) para `md ARAM`, o cálculo seria:
 
-$$hash(APAG) = hash(PAPA) - hash(P) + hash(G)$$
-$$hash(APAG) = 290 - 80 + 71 = 281$$
+$$hash(ARAM) = hash(CARA) - hash(C) + hash(M)$$
+$$hash(ARAM) = 279 - 67 + 77 = 289$$
 
 Veja a animação abaixo:
 
@@ -134,16 +157,20 @@ Veja a animação abaixo:
 
 :::
 
+
 ???
 
 A ideia apresentada acima é conhecida como **_Rolling Hash_**. Ela nos permite calcular mais rapidamente o _hash value_ de um trecho a partir do _hash_ anterior.
 
+Voltemos ao primeiro exemplo desta atividade: buscar o termo `md paga` na palavra `md papagaio`.
+
 ??? Checkpoint
-Antes de prosseguirmos, há mais um ponto a ser levantado. Você notou, na animação que exemplifica o _hash_, que houve um caso em que o _hash value_ da janela era igual ao do padrão? As strings eram iguais?.
+
+Aplique os conhecimentos adquiridos no exemplo anterior e calcule o _hash value_ target.
 
 ::: Gabarito
 
-Houve uma colisão de _hash_ em que as strings analisadas eram diferentes!
+$$hash(PAGA) = 80 + 65 + 71 + 65 = 281$$
 
 :::
 
@@ -151,15 +178,49 @@ Houve uma colisão de _hash_ em que as strings analisadas eram diferentes!
 
 ??? Checkpoint
 
-No caso descrito acima, qual foi o "critério de desempate" para strings com _hashs_ iguais?
+Identifique a(s) janela(s) de 4 caracteres da palavra `md papagaio` com mesmo valor.
+
+::: Gabarito
+
+As janelas que possuem o mesmo valor do target são as janelas `md 2` e `md 3`.
+
+Veja a animação abaixo:
+
+:ingenuohash
+
+:::
+
+???
+
+Temos duas janelas que possuem _hash values_ iguais ao do target, ou seja, houveram duas **colisões**. Contudo, como nosso objetivo principal é fazer o match de strings (e não de hashs), chegamos a um problema um pouco mais complexo. 
+
+??? Checkpoint
+Você notou que houve um caso em que o _hash value_ da janela era igual ao do padrão, mas strings não eram iguais?
+
+::: Gabarito
+
+Na janela `md 2`, houve uma colisão de _hash_ em que as strings analisadas eram diferentes!
+$$hash(PAGA) = hash(APAG)$$
+
+:::
+
+???
+
+??? Checkpoint
+
+No caso descrito acima, qual deve ser o "critério de desempate" para strings com _hashs_ iguais?
 
 Quais possíveis implicações isso pode ter em termos de desempenho do algoritmo?
 
 ::: Gabarito
 
-Quando os _hashs_ resultam no mesmo valor, é necessário fazer uma segunda verificação, caractere por caractere, para de fato validar ou não a igualdade entre strings.
+Quando os _hashs_ resultam no mesmo valor, é necessário fazer uma segunda verificação, caractere por caractere, para de fato validar ou não a igualdade entre strings (tal qual no algoritmo _força bruta_).
 
-Já fica evidente, portanto, que, no pior dos casos, quando toda janela possui o mesmo _hash_ do padrão, o algoritmo tem complexidade $O(n^2)$.
+Veja a animação abaixo:
+
+:ingenuo
+
+Já fica evidente, portanto, que, no pior dos casos, quando toda janela possui o mesmo _hash_ do padrão, o algoritmo tem complexidade $O(n \cdot m)$.
 
 :::
 ???
