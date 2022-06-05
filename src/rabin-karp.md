@@ -160,7 +160,21 @@ Veja a animação abaixo:
 
 ???
 
-A ideia apresentada acima é conhecida como **_Rolling Hash_**. Ela nos permite calcular mais rapidamente o _hash value_ de um trecho a partir do _hash_ anterior.
+A ideia apresentada acima é conhecida como **_Rolling Hash_**. Ela nos permite calcular mais rapidamente o _hash value_ de um trecho a partir do _hash_ anterior. 
+
+Nos exemplo vistos até então nesta atividade, a importância do _rolling hash_ não fica tão explícita, por estarmos tratando de padrões relativamente pequenos. 
+
+??? Checkpoint
+
+Imagine uma situação em que o padrão a ser buscado possui 100 caracteres, e não 4. Qualitativamente, qual o benefício computacional de se utilizar a estratégia do _rolling hash_?
+
+::: Gabarito
+
+Não são necessárias fazer 100 contas de _hash value_ a cada iteração. O valor calculado na iteração anterior é aproveitado e o novo é obtido com uma soma e uma subtração. 
+
+:::
+
+???
 
 Voltemos ao primeiro exemplo desta atividade: buscar o termo `md paga` na palavra `md papagaio`.
 
