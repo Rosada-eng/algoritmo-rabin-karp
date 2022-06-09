@@ -6,7 +6,7 @@ A busca de pedaços de palavra, palavras completas ou trechos de textos em conte
 
 Na era atual, ainda mais, é possível pensar em diversos contextos que exigem lidar com dados variados, em volumes crescentes e com velocidade cada vez maior. A importância de ferramentas de busca cresce fortemente com o crescimento do uso de conjuntos de dados maiores e mais complexos (ou Big Data, num termo bem popular atualmente).
 
-De fato, existem diversos algoritmos (com estratégias diferentes) que servem à finalidade proposta. Você consegue pensar em uma estratégia para o desafio de, digamos, buscar o termo `md paga` na palavra `md papagaio`?
+De fato, existem diversos algoritmos (com estratégias diferentes) que servem à finalidade proposta. Você consegue pensar em uma estratégia para o desafio de, digamos, buscar o termo `md PAGA` na palavra `md PAPAGAIO`?
 
 ## Como procurar palavras específicas em textos?
 
@@ -18,7 +18,7 @@ Nesse caso, a nossa verificação encontrou 1 ocorrência do termo nas _janelas_
 
 ## Algoritmo da força bruta
 
-Talvez a estratégia que você pensou anteriormente foi de comparar, letra a letra, contando cada ocorrência em que todas as letras sejam iguais e interrompendo a análise de uma dada _janela_ quando um dos caracteres não for igual. Por exemplo, se quiséssemos contar as ocorrências de `md paga` em `md papagaio`, seria possível fazer:
+Talvez a estratégia que você pensou anteriormente foi de comparar, letra a letra, contando cada ocorrência em que todas as letras sejam iguais e interrompendo a análise de uma dada _janela_ quando um dos caracteres não for igual. Por exemplo, se quiséssemos contar as ocorrências de `md PAGA` em `md PAPAGAIO`, seria possível fazer:
 
 :brutus
 
@@ -84,7 +84,7 @@ Resta-nos, porém, determinar uma regra para compor essa impressão digital num�
 
 Você pode ver a versão completa da Tabela ASCII [aqui](https://web.fe.up.pt/~ee96100/projecto/Tabela%20ascii.htm).
 
-Imagine agora que nosso desafio é o de encontrar o termo `md bola` na palavra `md carambolas`. O valor da _impressão digital numérica_ associado ao termo `md bola` é o nosso target, ou seja, o que queremos encontrar dentro da palavra `md carambolas`.  
+Imagine agora que nosso desafio é o de encontrar o termo `md BOLA` na palavra `md CARAMBOLAS`. O valor da _impressão digital numérica_ associado ao termo `md BOLA` é o nosso target, ou seja, o que queremos encontrar dentro da palavra `md CARAMBOLAS`.  
 
 ??? Checkpoint
 
@@ -176,7 +176,7 @@ Não são necessárias fazer 100 contas de _hash value_ a cada iteração. O val
 
 ???
 
-Voltemos ao primeiro exemplo desta atividade: buscar o termo `md paga` na palavra `md papagaio`.
+Voltemos ao primeiro exemplo desta atividade: buscar o termo `md PAGA` na palavra `md PAPAGAIO`.
 
 ??? Checkpoint
 
@@ -190,23 +190,11 @@ $$hash(PAGA) = 80 + 65 + 71 + 65 = 281$$
 
 ???
 
-??? Checkpoint
+<span id="dica1-desafio"></span>
 
-Identifique a(s) janela(s) de 4 caracteres da palavra `md papagaio` com mesmo valor.
+A animação abaixo identifica quais janelas de 4 caracteres da palavra `md PAPAGAIO` possuem o mesmo o _hash value_ target.
 
-::: Gabarito
-
-As janelas que possuem o mesmo valor do target são as janelas `md 2` e `md 3`.
-
-Veja a animação abaixo:
-
-:ingenuohash
-
-:::
-
-???
-
-Temos duas janelas que possuem _hash values_ iguais ao do target, ou seja, houveram duas **colisões**. Contudo, como nosso objetivo principal é fazer o match de strings (e não de hashs), chegamos a um problema um pouco mais complexo. 
+:ingenuohash 
 
 ??? Checkpoint
 Você notou que houve um caso em que o _hash value_ da janela era igual ao do padrão, mas strings não eram iguais?
@@ -219,6 +207,8 @@ $$hash(PAGA) = hash(APAG)$$
 :::
 
 ???
+
+Temos duas janelas que possuem _hash values_ iguais ao do target, ou seja, houveram duas **colisões**. Contudo, como nosso objetivo principal é fazer o match de strings (e não de hashs), chegamos a um problema um pouco mais complexo.
 
 ??? Checkpoint
 
@@ -306,7 +296,7 @@ Em contrapartida, podemos optar por uma versão mais segura, a **_versão Las Ve
 
 ??? Checkpoint
 
-Qual é a complexidade do Algoritmo de Rabin-Karp na versão Las Vegas?
+Qual é a complexidade <u>média</u> do Algoritmo de Rabin-Karp na versão Las Vegas?
 
 ::: Gabarito
 
@@ -317,3 +307,26 @@ Mas, como estamos utilizando uma _função hash_ relativamente complexa, podemos
 :::
 
 ???
+
+## Desafio
+
+!!! Alerta
+
+Este desafio é difícil. Se não conseguir, não se sinta mal.
+
+!!!
+
+Até agora, nossos algoritmos utilizaram uma função bastante simples para calcular os hashes. Afinal, estamos priorizando a didática. Mas você acha que essa função seria suficiente para evitar colisões? O que você acha que precisaríamos aprimorar?
+
+Volte ao <a href="#dica1-desafio">exemplo</a>. 
+
+O que poderíamos mudar na construção da função hash para evitar essa colisão?
+
+::: Dica
+
+$$hash(PAGA) = hash(APAG)$$
+
+$$hash(PAGA) = 80 \cdot 1 + 65 \cdot 1 + 71 \cdot 1 + 65 \cdot 1 = 281$$
+$$hash(APAG) = 65 \cdot 1 + 80 \cdot 1 + 65 \cdot 1 + 71 \cdot 1 = 281$$
+
+::: 
