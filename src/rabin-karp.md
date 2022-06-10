@@ -330,3 +330,5 @@ $$hash(PAGA) = 80 \cdot 1 + 65 \cdot 1 + 71 \cdot 1 + 65 \cdot 1 = 281$$
 $$hash(APAG) = 65 \cdot 1 + 80 \cdot 1 + 65 \cdot 1 + 71 \cdot 1 = 281$$
 
 ::: 
+
+Continua curioso? Veja <a href="https://www.programiz.com/dsa/rabin-karp-algorithm#code">aqui</a> uma implementação mais completa do algoritmo de Rabin-Karp.
